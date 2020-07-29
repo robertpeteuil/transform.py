@@ -76,7 +76,7 @@ def main():
 
     transformation_list = regex.get_transformations(mode)
     regex_list = regex.get_regex(mode)
-    logger.debug("Using Mode %s, with Transformations: %s, and Regex: %s" % (mode, transformation_list, regex_list))
+    logger.debug("Using Mode %s, with Transformations: %s, and Regex: %s", mode, transformation_list, regex_list)
 
     global hits
     global transformation
@@ -88,14 +88,15 @@ def main():
         r = regex_list[i]
         i = i + 1
         if not decode:
-            logger.debug("Regex: %s, Input: %s" % (r, input_str))
+            # logger.debug("Regex: %s, Input: %s" % (r, input_str))
+            logger.debug("Regex: %s, Input: %s", r, input_str)
             input_str = re.sub(r, encode_str, input_str, flags=re.DOTALL)  # Encode
         else:
             global prefix
             input_str = input_str.replace(prefix, '')  # Remove prefix
             input_str = re.sub(r, decode_str, input_str, flags=re.DOTALL)  # Decode
 
-    logger.debug("Transformed %d times" % hits)
+    logger.debug("Transformed %d times", hits)
     print(input_str)
 
 
@@ -121,9 +122,9 @@ def encode_str(m):
     # Check if the transformation requires splitting
     split_values = transformation in regex.get_split_values()
     if split_values:
-        logger.debug("Splitting value for transformation: %s, length %d" % (transformation, len(target)))
+        logger.debug("Splitting value for transformation: %s, length %d", transformation, len(target))
         d = int(len(target) / 2)
-        values = [target[:d],target[d:]]
+        values = [target[:d], target[d:]]
 
     error = False
     for value in values:
@@ -139,10 +140,10 @@ def encode_str(m):
                 results.append(j["data"]["encoded_value"])
             else:
                 error = True
-                logger.error('Unexpected output from vault %s' % j)
+                logger.error('Unexpected output from vault %s', j)
         else:
             error = True
-            logger.error('Received errors from command %s: %s' % (cmd, stderr))
+            logger.error('Received errors from command %s: %s', cmd, stderr)
 
     if error:
         logger.warning('Defaulting to masking')
@@ -182,10 +183,10 @@ def decode_str(m):
             v = j["data"]["decoded_value"]
         else:
             error = True
-            logger.error('Unexpected output from vault %s' % j)
+            logger.error('Unexpected output from vault %s', j)
     else:
         error = True
-        logger.error('Received errors from command %s: %s' % (cmd, stderr))
+        logger.error('Received errors from command %s: %s', cmd, stderr)
 
     if error:
         logger.warning('Could not decode, returning original string')

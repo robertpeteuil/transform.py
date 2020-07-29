@@ -17,7 +17,7 @@ transformation_dict = {
 }
 
 # Step 3. For long fields, indicate the transformations that need to be split into two
-split_values = ["aws", "azure-client-secret"]
+split_values_list = ["aws", "azure-client-secret"]
 
 
 def get_regex(mode):
@@ -29,4 +29,4 @@ def get_transformations(mode):
 
 
 def get_split_values():
-    return split_values
+    return split_values_list
